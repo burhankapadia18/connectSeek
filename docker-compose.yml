@@ -1,0 +1,32 @@
+services:
+  conneckseek:
+    image: connectseek
+    command: python /app/manage.py runserver 0.0.0.0:8000
+    restart: always
+    environment:
+      - PORT=8000
+      - MAIL_PORT=587
+      - MAIL=51110103110@piemr.edu.in
+      - MAIL_PS=vnngrcibginsirpc
+    volumes:
+      - web_media:/app/media
+      - web_static:/app/static  
+      - ./:/app 
+    ports:
+      - 8000:8000
+
+  redis:
+    image: redis:alpine
+    ports:
+     - '6379:6379'
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A connectSeek worker -l info
+
+volumes:
+  web_media:
+    driver: local
+  web_static:
+    driver: local

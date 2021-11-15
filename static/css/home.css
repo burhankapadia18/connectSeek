@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dropdown {
+  position: relative;
+  box-align: left;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  display: left;
+  position: left;
+  background-color: #f4f2f5;
+  min-width: 90px;
+  box-shadow: 0px 8px 16px 0px rgba(37, 2, 53, 0.2);
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background-color: #560079;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.why-us {
+  margin: auto;
+  padding: 0;
+  position: inherit;
+  z-index: 3;
+  top: 50vh;
+}
+
+.why-us .content {
+  padding: 30px;
+  margin-top: 20%;
+  background: #9308f0;
+  border-radius: 20%;
+  color: #fff;
+  font-weight: bold;
+  font-size: 30px;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.why-us .content p {
+  margin-bottom: 30px;
+}
+
+.why-us .content ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: medium;
+}
+
+.why-us .icon-boxes .icon-box {
+  text-align: center;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+  width: 100%;
+}
+
+.why-us .icon-boxes .icon-box i {
+  font-size: 40px;
+  color: #9308f0;
+  margin-bottom: 30px;
+}
+
+.why-us .icon-boxes .icon-box h4 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 30px 0;
+}
+
+.why-us .icon-boxes .icon-box p {
+  font-size: 15px;
+  color: #716f6f;
+}
