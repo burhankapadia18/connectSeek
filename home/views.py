@@ -68,7 +68,7 @@ def signUp(request):
         except:
             messages.error(request,"User already existed")
             return render(request,'home/loginPage1.html')
-        # send_welcome_mail.delay(email, stud.first_name) # send a welcome mail
+        send_welcome_mail.delay(email, stud.first_name) # send a welcome mail
         # print("\nuser created")
         messages.success(request, 'Your connectSeek account has been created successfully!')
         return redirect('loginPage')
@@ -89,6 +89,47 @@ def changePassword(request):
         else:
             messages.error(request, "Password Incorrect")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # redirects to the page where it has been made to logout
+
+
+@login_required(login_url='loginPage')
+def editProfile(request):
+    if request.method == 'POST':
+        print("\nin editprofile post request\n")
+        username = request.user.username
+        stud = Student_table.objects.get(roll_no=username)
+        stud.first_name = request.POST['first_name']
+        stud.last_name = request.POST['last_name']
+        stud.phone = request.POST['phone']
+        stud.address = request.POST['address']
+        stud.email = request.POST['email']
+        stud.save()
+        messages.success(request, "Profile Edited Successfully")
+        return redirect('dashboard')
+    username = request.user.username
+    stud = Student_table.objects.get(roll_no=username)
+    return render(request, 'home/editProfile.html', {'stud':stud})
+
+
+@login_required(login_url='loginPage')
+def assignment(request):
+    username = request.user.username
+    stud = Student_table.objects.get(roll_no=username)
+    assignments = assignment_details.filter()
+    return render(request, 'home/assignment.html', {'student':stud})
+
+@login_required(login_url='loginPage')
+def feePayment(request):
+    username = request.user.username
+    stud = Student_table.objects.get(roll_no=username)
+    subjects = Subject_table.filter(semester=stud.semester, field=stud.program)
+    
+    return render(request, 'home/fees.html', {'student':stud})
+
+@login_required(login_url='loginPage')
+def knowledgeCenter(request):
+    username = request.user.username
+    stud = Student_table.objects.get(roll_no=username)
+    return render(request, 'home/knowledgeCenter.html', {'student':stud})
 
 
 # Authentication API's

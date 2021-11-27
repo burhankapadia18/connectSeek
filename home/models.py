@@ -28,6 +28,7 @@ class Student_table(models.Model):
     session = models.CharField(max_length=9)
     program = models.CharField(max_length=10)
     semester = models.CharField(max_length=1)
+    profileImage = models.ImageField(upload_to="home/profileImage", default="")
 
     def __str__(self):
         return str(self.roll_no)+" "+self.first_name
@@ -80,3 +81,14 @@ class Resources(models.Model):
 
     def __str__(self):
         return self.detail
+
+class assignment_details(models.Model):
+    given_by = models.ForeignKey(Teacher_table, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject_table, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    closed = models.BooleanField(default=0)
+
+class assigment_data(models.Model):
+    student = models.ForeignKey(Student_table, on_delete=models.CASCADE)
+    docfile = models.FileField(upload_to="home/assigments")
+    timestamp = models.DateTimeField(auto_now_add=True)

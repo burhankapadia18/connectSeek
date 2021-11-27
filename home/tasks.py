@@ -14,8 +14,7 @@ We hope you will learn better things from the platform.
         
         
 Regards,
-Itisha Jain (Lead Frontend Engineer)
-Burhan Kapdawala (Lead Backend Engineer)
+Burhan Kapdawala (Lead Engineer)
     '''
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]

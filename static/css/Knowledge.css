@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    line-height: 2.5;
+}
+table{
+    border-collapse: inherit;
+}
+.header_fixed{
+    height: 972px;
+    overflow: auto;
+    margin-top: -150px;
+    border: 259px solid #ffffff;
+}
+.header_fixed thead th{
+    position: sticky;
+    top: 0;
+    background-color: #37174e ;
+    color: #edeef1;
+    font-size: 15px;
+    font-weight: 800;
+}
+th,td{
+    border: 1px solid #dddddd;
+    padding: 16px 20px;
+    font-size: 14px;
+}
+tr:nth-child(even){
+    background-color: #dddddd;
+}
+tr:nth-child(odd){
+    background-color: #edeef1;
+}
+tr:hover td{
+    color: #37174e;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+td button{
+    border: none;
+    padding: 7px 20px;
+    background-color: #37174e;
+    color: #edeef1;
+}
+::-webkit-scrollbar{
+    width: 6px;
+}
+::-webkit-scrollbar-track{
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-thumb{
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+}
