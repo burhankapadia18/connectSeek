@@ -1,3 +1,4 @@
+from django.db import reset_queries
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -12,7 +13,7 @@ from .tasks import send_welcome_mail
 def loginPage(request):
     if request.user.is_authenticated:   # if it has already loggedin, redirect it to dashboard
         return redirect('dashboard')
-    return render(request, 'home/loginPage1.html')
+    return render(request, 'home/loginPage.html')
 
 @login_required(login_url='loginPage')
 def dashboard(request):
@@ -34,7 +35,7 @@ def dashboard(request):
         attendance_data[aten_obj.subject_id.id]['total'] += 1
         total['total'] = total['total'] + 1
 
-    return render(request, 'home/dashboard1.html', {'student':stud, 'attendance':[attendance_data,total]})
+    return render(request, 'home/dashboard.html', {'student':stud, 'attendance':[attendance_data,total]})
 
 def signUp(request):
     if request.method == 'POST':
@@ -67,13 +68,13 @@ def signUp(request):
             myuser.save()
         except:
             messages.error(request,"User already existed")
-            return render(request,'home/loginPage1.html')
+            return render(request,'home/loginPage.html')
         send_welcome_mail.delay(email, stud.first_name) # send a welcome mail
         # print("\nuser created")
         messages.success(request, 'Your connectSeek account has been created successfully!')
         return redirect('loginPage')
     else:   
-        return render(request,'home/loginPage1.html')
+        return render(request,'home/loginPage.html')
 
 def changePassword(request):
     if request.method == 'POST':
@@ -114,22 +115,36 @@ def editProfile(request):
 def assignment(request):
     username = request.user.username
     stud = Student_table.objects.get(roll_no=username)
-    assignments = assignment_details.filter()
-    return render(request, 'home/assignment.html', {'student':stud})
+    if request.method == 'POST':
+        print("\nin post request assignment\n")
+        # try:
+        assign = assigment_data()
+        assign.student = stud
+        # _, file = request.FILES.popitem()
+        assign.docfile = request.FILES['doc_file']
+        assignment_details.objects.get(id=request.POST['assign'])
+        assign.assignment = assignment_details.objects.get(id=request.POST['assign'])
+        assign.save()
+        messages.success(request, "file uploaded Successfully")
+        # except:
+        #     messages.error(request, "sorry, an error occured!")
+    subjects = Subject_table.objects.filter(field=stud.program, semester=stud.semester)
+    assignments = assignment_details.objects.filter(subject__in=subjects.values_list('id', flat=True), closed=0).order_by('-timestamp')
+    return render(request, 'home/assignment.html', {'student':stud, 'assignments':assignments})
 
 @login_required(login_url='loginPage')
 def feePayment(request):
     username = request.user.username
     stud = Student_table.objects.get(roll_no=username)
-    subjects = Subject_table.filter(semester=stud.semester, field=stud.program)
-    
     return render(request, 'home/fees.html', {'student':stud})
 
 @login_required(login_url='loginPage')
 def knowledgeCenter(request):
     username = request.user.username
     stud = Student_table.objects.get(roll_no=username)
-    return render(request, 'home/knowledgeCenter.html', {'student':stud})
+    subjects = Subject_table.objects.filter(field=stud.program, semester=stud.semester)
+    resources = Resources.objects.filter(subject__in=subjects.values_list('id', flat=True)).order_by('-timestamp')
+    return render(request, 'home/knowledgeCenter.html', {'student':stud, 'resources':resources})
 
 
 # Authentication API's

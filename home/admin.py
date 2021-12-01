@@ -4,4 +4,16 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register((Teacher_table,Student_table,Subject_table,Semester_table,Attendance_table,Tbl_attendance,Notice,Resources))
+admin.site.register((
+                Teacher_table,
+                Student_table,
+                Subject_table,
+                Semester_table,
+                Attendance_table,
+                Tbl_attendance,
+                Notice,
+                Resources,
+                assignment_details,
+                assigment_data,
+                FeesPayment
+            ))

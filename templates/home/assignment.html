@@ -23,6 +23,15 @@
 </head> 
 <body>
 
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert">
+        <strong>Message: </strong>{{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	
 	    <div class="container-fluid">
@@ -67,9 +76,9 @@
 				    loading="lazy"
 			    /></a>
 			    <ul class="dropdown-menu" role="menu">
-				    <li><a href="edit.html" >Edit profile</a></li>
+				    <li><a href="/editprofile/" >Edit profile</a></li>
 				
-				    <li><a href="index.html">Logout</a></li>
+				    <li><a href="/logout/">Logout</a></li>
 			    </ul>
 			
 	    </div>
@@ -84,21 +93,27 @@
                 <thead>
                     <tr>
                         <th>S.No.</th>
-                        <th>Class</th>
                         <th>Subject</th>
                         <th>Assignment Given By</th>
+                        <th>Detail</th>
+                        <th>File</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for assignment in assignments %}
                     <tr>
-                        <td>1.</td>
-                        <td>BE-CS V SEM</td>
-                        <td>Internet and Web Technology</td>
-                        <td>DR.DIPTI PATIL</td>
-                        <td><button type="submit">Upload</button></td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ assignment.subject }}</td>
+                        <td>{{ assignment.given_by }}</td>
+                        <td>{{ assignment.detail }}</td>
+                        <form action="/assignment/" enctype = "multipart/form-data" class="assignment" method="post"> {% csrf_token %}
+                            <input type='hidden' id="assignment" name="assign" value={{ assignment.id }} />
+                            <td><input type = "file" id = "doc_file" name = "doc_file" ></td>
+                            <td><button type="submit">Upload</button></td>
+                        </form>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

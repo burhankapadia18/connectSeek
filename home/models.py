@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -73,22 +74,37 @@ class Notice(models.Model):
     id = models.AutoField(primary_key=True)
     details = models.CharField(max_length=1000)
     timestamp = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to="home/notices", default="")
 
 class Resources(models.Model):
     id = models.AutoField(primary_key=True)
     detail = models.CharField(max_length=50)
+    subject = models.ForeignKey(Subject_table, on_delete=models.CASCADE, default="")
     file = models.FileField(upload_to="home/files", default="")
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.detail
 
 class assignment_details(models.Model):
+    id = models.AutoField(primary_key=True)
     given_by = models.ForeignKey(Teacher_table, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject_table, on_delete=models.CASCADE)
+    detail = models.CharField(max_length=100, default="")
     timestamp = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=0)
 
 class assigment_data(models.Model):
     student = models.ForeignKey(Student_table, on_delete=models.CASCADE)
     docfile = models.FileField(upload_to="home/assigments")
+    assignment = models.ForeignKey(assignment_details, on_delete=models.CASCADE, default="")
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class FeesPayment(models.Model):
+    transaction_id = models.CharField(max_length=1000000, primary_key=True)
+    student = models.ForeignKey(Student_table, on_delete=models.CASCADE)
+    semester = models.CharField(max_length=1)
+    amount = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    transaction_id = models.CharField(max_length=1000000)
+    payment_mode = models.CharField(max_length=10, choices=(('UPI','UPI'),('DD','Demand Draft'),('Cash','Cash')))
