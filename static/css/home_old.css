@@ -28,7 +28,6 @@
 
 .dropdown-menu a:hover {
   background-color: #560079;
-  color: white;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -41,7 +40,6 @@
   position: inherit;
   z-index: 3;
   top: 50vh;
-  /* float: right; */
 }
 
 .why-us .content {
@@ -53,7 +51,7 @@
   font-weight: bold;
   font-size: 30px;
   align-items: center;
-  text-align: left;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -61,20 +59,10 @@
   margin-bottom: 30px;
 }
 
-.why-us .content a {
+.why-us .content ul li a {
   color: white;
   text-decoration: none;
-  font-size: 30px;
-}
-
-.why-us .content .point {
-  color: black;
-  margin-bottom: 20px;
-}
-
-.why-us .content .point:hover {
-  color: white;
-  transform: scale(1.5);
+  font-size: medium;
 }
 
 .why-us .icon-boxes .icon-box {
@@ -101,15 +89,4 @@
 .why-us .icon-boxes .icon-box p {
   font-size: 15px;
   color: #716f6f;
-}
-
-@media only screen and (max-width: 600px) {
-  strong {
-    font-size: 20px;
-  }
-}
-
-#chartContainer{
-  float: right;
-  margin-top: 80px;
 }

@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .tasks import send_welcome_mail
+import json
 
 # Create your views here.
 
@@ -35,7 +36,15 @@ def dashboard(request):
         attendance_data[aten_obj.subject_id.id]['total'] += 1
         total['total'] = total['total'] + 1
 
-    return render(request, 'home/dashboard.html', {'student':stud, 'attendance':[attendance_data,total]})
+    for sub_id in attendance_data:
+        attendance_data[sub_id]['percent'] = (attendance_data[sub_id]['present']/attendance_data[sub_id]['total'])*100
+
+    total['percent'] = (total['present']/total['total'])*100
+
+    attendance_total = json.dumps(total)
+    attendance_sub = json.dumps(attendance_data)
+
+    return render(request, 'home/dashboard.html', {'student':stud, 'attendance_subject':attendance_sub, 'attendance_total':attendance_total})
 
 def signUp(request):
     if request.method == 'POST':

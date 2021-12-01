@@ -1,106 +1,126 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>connectSeek</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/static/css/home.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>connectSeek</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/css/home.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script>
+		window.onload = function () {
 
-</style>
+		var attendance_total = JSON.parse("{{attendance_total|escapejs}}");
+		var attendance_subject = JSON.parse("{{attendance_subject|escapejs}}");
+
+		data_points = []
+		data_points.push({label: "Overall Attendance", y: attendance_total['percent']})
+
+		for (let sub_id in attendance_subject) {
+			data_points.push({ label: attendance_subject[sub_id]['name'], y: attendance_subject[sub_id]['percent'] })
+			//console.log(sub_id)
+		}
+		
+		var chart = new CanvasJS.Chart("chartContainer", {
+			animationEnabled: true,
+			theme: "light1", // "light1", "light2", "dark1", "dark2"
+			title: {
+				text: "ATTENDANCE STATUS"
+			},
+			axisY: {
+				title: "PERCENT (%)",
+				suffix: "%"
+			},
+			axisX: {
+				title: "SUBJECT"
+			},
+			data: [{
+				type: "column",
+				yValueFormatString: "#,##0.0#\"%\"",
+				dataPoints: data_points
+			}]
+		});
+		chart.render();
+		
+		}
+		</script>
 
 </head> 
+
 <body>
 
-{% comment %} Added by Burhan Kapdawala {% endcomment %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert">
-        <strong>Message: </strong>{{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {% endfor %}
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	
-	<div class="container-fluid">
-	
-	  <button
-		class="navbar-toggler"
-		type="button"
-		data-mdb-toggle="collapse"
-		data-mdb-target="#navbarSupportedContent"
-		aria-controls="navbarSupportedContent"
-		aria-expanded="false"
-		aria-label="Toggle navigation"
-	  >
-		<i class="fas fa-bars"></i>
-	  </button>
-  
-	
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		
-		<a class="navbar-brand mt-2 mt-lg-0" href="#">
-		<strong><b> <h1 style="color: #2d014b; font-family: Broadway; " >Welcome to connectSeek {{student.first_name}}
-			</h1>
-		</b></strong></a>
+		<div class="container-fluid">
 		
-		 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-		  <li class="nav-item">
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-mdb-toggle="collapse"
+				data-mdb-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent"
+				aria-expanded="false"
+				aria-label="Toggle navigation">
+				<i class="fas fa-bars"></i>
+			</button>
+		
 			
-		  </li>
-		</ul>
-		
-	  </div>
-	  
-		
-		<ul class='nav'>
-			
-			<li class='dropdown'>
-			  <a class="dropdown-toggle" data-toggle="dropdown" href='#'> <img
-				src="/media/{{student.profileImage}}"
-				class="rounded-circle"
-				height="50"
-				alt=""
-				loading="lazy"
-			  /></a>
-			  <ul class="dropdown-menu" role="menu">
-				<li><a href="/editprofile/">Edit profile</a></li>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				
-				<li><a href="/logout/">Logout</a></li>
-			  </ul>
-			
-	  </div>
+				<a class="navbar-brand mt-2 mt-sm-0" href="#">
+				<strong><b> <h1 style="color: #2d014b; font-family: Broadway; " >Welcome to connectSeek {{student.first_name}}</h1>
+				</b></strong></a>
+				
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"> 
+				</ul>
+				
+			</div>
+			<ul class='nav'>
+				
+				<li class='dropdown'>
+				<a class="dropdown-toggle" data-toggle="dropdown" href='#'> <img
+					src="/media/{{student.profileImage}}"
+					class="rounded-circle"
+					height="50"
+					alt=""
+					loading="lazy"
+				/></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="/editprofile/" >Edit profile</a></li>
+					
+					<li><a href="/logout/">Logout</a></li>
+				</ul>
+				
+		</div>	
+	</nav>
 	
-	</div>
-	
-  </nav>
-  <main id="main">
-    <section id="why-us" class="why-us">
-        <div class="container">
-    
-          <div class="row">
-            <div class="col-xl-4 col-lg-5" data-aos="fade-up">
-              <div class="content">
-                <p>
-                   <ul>
-					   <li><a href="/assignment">Assignments</a></li>
-					   <li><a href="/feespayment/">Fee</a></li>
-					   <li><a href="/knowledgecenter/">Knowledge Center</a></li>
-					   <li><a href="">Notice</a></li>
-				   </ul>
-                </p>
-              </div>
-            </div>
-  </body>
-  <script src="/static/js/home.js"></script>
+	<div class="col mx-2 my-2" id="chartContainer" style="height: 300px; width: 60%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<!-- <main id="main"><section id="why-us" class="why-us"> -->
+
+				<div class="why-us">
+					<div class="col-xl-4 col-lg-5" data-aos="fade-up">
+					<div class="content">
+						<p>
+						<ul>
+							<a class="point" href="/assignment/">Assignments</a><br>
+							<a class="point" href="/feespayment/">Fee</a><br>
+							<a class="point" href="/knowledgecenter/">Knowledge Center</a><br>
+							<a class="point" href="">Notice</a><br>
+						</ul>
+						</p>
+					</div>
+				</div>
+				
+
+</body>
+
+<script src="/static/js/home.js"></script>
 </html>
