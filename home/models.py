@@ -96,7 +96,7 @@ class assignment_details(models.Model):
 
 class assigment_data(models.Model):
     student = models.ForeignKey(Student_table, on_delete=models.CASCADE)
-    docfile = models.FileField(upload_to="home/assigments")
+    docfile = models.FileField(upload_to="home/assignments")
     assignment = models.ForeignKey(assignment_details, on_delete=models.CASCADE, default="")
     timestamp = models.DateTimeField(auto_now_add=True)
 
